@@ -1,0 +1,20 @@
+
+html, body {
+  height: 100%;
+}
+
+#resizeme{
+  height: 80%;
+  width: 80%;
+  margin: auto;
+}
+
+#gamewindow {
+  background: #000000;
+  border: thin inset #aaaaaa;
+  padding: 0;
+  display: block;
+  width: 800;
+  height: 600;
+  margin: auto;
+}
