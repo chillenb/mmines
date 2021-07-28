@@ -47,6 +47,13 @@ export class ClientGameState{
 
       }
     }
+    if(this.isMouseOver == true) {
+      let tileState = this.playerKnowledgeGrid[this.height * this.hoverSquare[0] + this.hoverSquare[1]];
+      if(tileState == 64) {
+        ctx.fillStyle = '#70FF83';
+        ctx.fillRect(25 * this.hoverSquare[1] + 1, 25 * this.hoverSquare[0] + 1, 23, 23);
+      }
+    }
   }
   flagPos(coords) {
     let j = parseInt(coords[0] / 25);
@@ -60,6 +67,20 @@ export class ClientGameState{
       this.playerKnowledgeGrid[i * this.height + j] = -1;
     }
   }
+  mouseHover(coords) {
+    let j = parseInt(coords[0] / 25);
+    let i = parseInt(coords[1] / 25);
+    console.log("Hover at" + coords);
+    if(i >= this.width || j >= this.height || coords[0] < 0 || coords[1] < 0) {
+      this.isMouseOver = false;
+      return;
+    }
+    this.isMouseOver = true;
+    this.hoverSquare = [i,j];
+  }
+  mouseOut() {
+    this.isMouseOver = false;
+  }
 
 }
 
@@ -72,6 +93,14 @@ export class Game{
   }
   rightClickHandler(coords) {
     this.gameState.flagPos(coords);
+    this.gameState.drawState(this.ctx);
+  }
+  mouseoverHandler(coords) {
+    this.gameState.mouseHover(coords);
+    this.gameState.drawState(this.ctx);
+  }
+  mouseoutHandler() {
+    this.gameState.mouseOut();
     this.gameState.drawState(this.ctx);
   }
 }

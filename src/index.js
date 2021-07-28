@@ -47,4 +47,14 @@ gameCanvas.addEventListener('contextmenu', function(e) {
   var coords = getCursorPosition(gameCanvas, e);
   e.preventDefault();
   game.rightClickHandler(coords);
-})
+});
+
+
+gameCanvas.addEventListener('mousemove', function(e) {
+  var coords = getCursorPosition(gameCanvas, e);
+  game.mouseoverHandler(coords);
+});
+
+gameCanvas.addEventListener('mouseout', function() {
+  game.mouseoutHandler();
+});
