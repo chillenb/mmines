@@ -11,7 +11,7 @@ export class ClientGameState{
   initPlayerKnowledgeGrid() {
     this.playerKnowledgeGrid = new Array(this.width * this.height);
     for(let i = 0; i < this.width*this.height; i++) {
-      this.playerKnowledgeGrid[i] = 0; // initialize to all zeroes; empty grid
+      this.playerKnowledgeGrid[i] = 64; // initialize to all 64; completely unknown grid
     }
   }
   drawState(ctx) {
@@ -19,15 +19,29 @@ export class ClientGameState{
     ctx.fillRect(0, 0, this.width*25, this.height*25);
     for(let i = 0; i < this.height; i++) {
       for(let j = 0; j < this.width; j++) {
-        if(this.playerKnowledgeGrid[this.height*i + j] == 0) {
+        let tileState = this.playerKnowledgeGrid[this.height*i + j];
+        if(tileState == 64) {
           ctx.fillStyle = '#D9D9D9';
-          ctx.fillRect(25 * i + 1, 25 * j + 1, 23, 23);
+          ctx.fillRect(25 * j + 1, 25 * i + 1, 23, 23);
         }
+        if(tileState <= 8 && tileState >= 0) {
+          ctx.fillStyle = '#A8A8A8';
+          ctx.fillRect(25 * j + 1, 25 * i + 1, 23, 23);
+          if(tileState > 0) {
+            ctx.fillStyle = colors[tileState - 1];
+            ctx.font = '20px sans';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(tileState, 25*j + 7, 25*i + 15);
+          }
+        }
+
       }
     }
   }
 
 }
+
+const colors = ['#0026FF', '#00FFE5', '#CF4100', '#9E0084', '#6C0070', '#20003B', '#000000', '#000000'];
 
 export class MineLayout{
   constructor(width, height) {
