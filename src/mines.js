@@ -49,10 +49,8 @@ export class ClientGameState{
     }
   }
   flagPos(coords) {
-    console.log("flagpos" + coords[0] + ' ' + coords[1]);
     let j = parseInt(coords[0] / 25);
     let i = parseInt(coords[1] / 25);
-    console.log("flagpos" + i + ' ' + j);
     if(i >= this.width || j >= this.height) {
       return;
     }
