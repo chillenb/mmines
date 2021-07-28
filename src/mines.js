@@ -2,6 +2,7 @@ export class ClientGameState{
   constructor(sessID) {
     this.sessID = sessID;
   }
+
   setMineLayout(mineLayout) {
     this.mineLayout = mineLayout;
     this.width = mineLayout.width;
@@ -35,11 +36,49 @@ export class ClientGameState{
           }
         }
 
+        if(tileState == -1) {
+          ctx.fillStyle = '#D9D9D9';
+          ctx.fillRect(25 * j + 1, 25 * i + 1, 23, 23);
+          ctx.fillStyle = '#FF0000';
+          ctx.font = '20px sans';
+          ctx.textBaseline = 'middle';
+          ctx.fillText('!', 25*j + 7, 25*i + 15);
+        }
+
       }
+    }
+  }
+  flagPos(coords) {
+    console.log("flagpos" + coords[0] + ' ' + coords[1]);
+    let j = parseInt(coords[0] / 25);
+    let i = parseInt(coords[1] / 25);
+    console.log("flagpos" + i + ' ' + j);
+    if(i >= this.width || j >= this.height) {
+      return;
+    }
+    if(this.playerKnowledgeGrid[i*this.height + j] == -1) {
+      this.playerKnowledgeGrid[i*this.height + j] = 64;
+    } else if(this.playerKnowledgeGrid[i * this.height + j] == 64) {
+      this.playerKnowledgeGrid[i * this.height + j] = -1;
     }
   }
 
 }
+
+export class Game{
+  setGameState(gameState) {
+    this.gameState = gameState;
+  }
+  setContext(ctx) {
+    this.ctx = ctx;
+  }
+  rightClickHandler(coords) {
+    this.gameState.flagPos(coords);
+    this.gameState.drawState(this.ctx);
+  }
+}
+
+
 
 const colors = ['#0026FF', '#00FFE5', '#CF4100', '#9E0084', '#6C0070', '#20003B', '#000000', '#000000'];
 
